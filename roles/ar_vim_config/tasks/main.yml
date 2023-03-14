@@ -1,0 +1,42 @@
+---
+# tasks file for ar-tw-common
+
+################################################################################
+### Dummy/Testing tasks
+################################################################################
+- name: "get var_time"
+  debug:
+    msg: "{{ var_time }}"
+
+################################################################################
+### Get distro information (name, version, ...)
+################################################################################
+- name: "Get \"distro\" related information"
+  import_tasks: "1_get-common-distro-infos.yml"
+
+################################################################################
+### Install all packages defined in the variable files vars/*
+### Clone all repositorie defined in the variable files vars/*
+################################################################################
+- name: "Install required packages"
+  package:
+    name: "{{ item.name }}"
+    state: present
+  loop: "{{ packages }}"
+
+- name: "Clone all repositories"
+  git:
+    repo: "{{ item.repo }}"
+    force: yes
+    dest: "{{ item.repo_dest }}"
+    version: "{{ item.version }}"
+  loop: "{{ repositories }}"
+################################################################################
+### VIM Setup
+################################################################################
+# TODO: Enhance Makefile or task to be always OK without "changed_when"-hack
+- name: "Install vim-config"
+  make:
+    chdir: "{{main_config_dir}}/vim-config"
+    target: install
+  changed_when: false
