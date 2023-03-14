@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  vars:
+    var_time: "Var: {{ lookup('pipe', 'date \"+%H:%M:%S\"') }}"
+    main_config_dir: "~/.thwi885"
+  tasks:
+    - import_role:
+        name: ../roles/ar_vim_config
