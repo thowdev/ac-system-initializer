@@ -1,0 +1,31 @@
+---
+- name: Create temporary directory for git-config repo
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: git-config
+  register: tmp_git_config_repo
+
+- name: Creating/Adapting ~/.gitconfig
+  ansible.builtin.blockinfile:
+    path: ~/.gitconfig
+    create: true
+    block: |
+      [includeIf "gitdir:{{git_repos_dir}}"]
+          path = {{main_config_dir}}/{{git_config_thwi885}}
+    state: present
+
+- name: "Clone {{git_config_repo}} to {{ tmp_git_config_repo.path }}"
+  git:
+    repo: "{{ git_config_repo }}"
+    force: yes
+    dest: "{{ tmp_git_config_repo.path }}"
+
+- name: "Collect {{ tmp_git_config_repo.path }}/{{ git_config_thwi885 }}"
+  ansible.builtin.copy:
+    src: "{{ tmp_git_config_repo.path }}/{{ git_config_thwi885 }}"
+    dest: "{{main_config_dir}}/{{git_config_thwi885}}"
+
+- name: "Delete {{ tmp_git_config_repo.path }}"
+  ansible.builtin.file:
+    path: "{{ tmp_git_config_repo.path }}"
+    state: absent

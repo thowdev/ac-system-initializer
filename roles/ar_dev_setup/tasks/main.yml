@@ -1,0 +1,18 @@
+---
+# tasks file for ar_dev_setup
+
+################################################################################
+### Get distro information (name, version, ...)
+################################################################################
+- name: "Get \"distro\" related information"
+  import_tasks: "1_get-common-distro-infos.yml"
+
+################################################################################
+### Install all packages defined in the variable files vars/*
+### Clone all repositorie defined in the variable files vars/*
+################################################################################
+- name: "Install required packages"
+  package:
+    name: "{{ item.name }}"
+    state: present
+  loop: "{{ packages }}"

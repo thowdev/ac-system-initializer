@@ -1,0 +1,5 @@
+---
+# list of packages to install for fedora-37
+packages:
+  - name: "@Development Tools"
+    description: dnf group install "Development Tools"

@@ -1,0 +1,6 @@
+---
+# defaults file for thwi885.ar_git_config
+main_config_dir: ~/.thwi885
+git_config_repo: git@github.com:thwi885/git-config.git
+git_config_thwi885: .gitconfig-gh-thwi885
+git_repos_dir: ~/repos/gh
